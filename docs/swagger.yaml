@@ -1,0 +1,1472 @@
+basePath: /api/v1
+definitions:
+  dto.AuthRequestLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.AuthRequestRegister:
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.AuthResponse:
+    properties:
+      expires_in:
+        type: integer
+      token:
+        type: string
+    type: object
+  entity.BalanceResponse:
+    properties:
+      amount:
+        type: number
+      balance:
+        type: number
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      transaction_type:
+        type: string
+    type: object
+  entity.MenuResponse:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      rating:
+        type: number
+      type:
+        type: string
+      unit_type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  entity.OrderItem:
+    properties:
+      id:
+        type: string
+      menu_name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  entity.OrderResponse:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      id:
+        type: string
+      note:
+        type: string
+      order_items:
+        items:
+          $ref: '#/definitions/entity.OrderItem'
+        type: array
+      order_status:
+        type: string
+      promo_code:
+        type: string
+      total_price:
+        type: number
+    type: object
+  entity.PromoResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      discount:
+        type: number
+      end_date:
+        type: string
+      id:
+        type: string
+      is_percentage:
+        type: boolean
+      promo_code:
+        type: string
+      start_date:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entity.ReviewResponse:
+    properties:
+      buy_date:
+        type: string
+      comment:
+        type: string
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      id:
+        type: string
+      menu_name:
+        type: string
+      order_id:
+        type: string
+      rating:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  entity.UserResponse:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  model.BalanceRequest:
+    properties:
+      amount:
+        type: number
+      description:
+        type: string
+    type: object
+  model.CreateReviewRequest:
+    properties:
+      comment:
+        type: string
+      menu_name:
+        type: string
+      order_id:
+        type: string
+      rating:
+        type: integer
+    type: object
+  model.LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.AuthResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.MenuRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      type:
+        type: string
+      unit_type:
+        type: string
+    type: object
+  model.OrderItemRequest:
+    properties:
+      menu_name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  model.OrderRequest:
+    properties:
+      address:
+        type: string
+      note:
+        type: string
+      order_items:
+        items:
+          $ref: '#/definitions/model.OrderItemRequest'
+        type: array
+      promo_code:
+        type: string
+    type: object
+  model.PagedBalanceResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.BalanceResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.PagedMenuResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.MenuResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.PagedOrderResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.OrderResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.PagedPromoResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.PromoResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.PagedReviewResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.ReviewResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.PagedUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.BalanceResponse'
+      paging:
+        $ref: '#/definitions/model.Paging'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.Paging:
+    properties:
+      page:
+        type: integer
+      rowsPerPage:
+        type: integer
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  model.PromoRequest:
+    properties:
+      description:
+        type: string
+      discount:
+        type: number
+      end_date:
+        type: string
+      is_percentage:
+        type: boolean
+      promo_code:
+        type: string
+      start_date:
+        type: string
+    type: object
+  model.SingleBalanceResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.BalanceResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.SingleMenuResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.MenuResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.SingleOrderResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.OrderResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.SinglePromoResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.PromoResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.SingleReviewResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.ReviewResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.SingleUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/entity.UserResponse'
+      status:
+        $ref: '#/definitions/model.Status'
+    type: object
+  model.Status:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  model.UpdateReviewRequest:
+    properties:
+      comment:
+        type: string
+      rating:
+        type: integer
+    type: object
+  model.UserRequest:
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: farhanhasbi512@gmail.com
+    name: Farhan Hasbi
+  description: This is a Food Delivery API server using Gin and Clean Architecture.
+  title: Food Delivery API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user with email and password. Returns a JWT token on
+        success.
+      parameters:
+      - description: Login User
+        in: body
+        name: LoginBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequestLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.LoginResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      summary: Login User
+      tags:
+      - Authentication
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout to prevent user access the resource.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User Logged out successfully
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Logout User.
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with username, email, password, and gender.
+      parameters:
+      - description: Register User
+        in: body
+        name: RegisterBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequestRegister'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleUserResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      summary: Register New User
+      tags:
+      - Authentication
+  /available-promo:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of available promo for customer.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved promo
+          schema:
+            $ref: '#/definitions/model.PagedPromoResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: Promo not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Customer's Promo.
+      tags:
+      - customer
+  /balance:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of customer's balance.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved balances
+          schema:
+            $ref: '#/definitions/model.PagedBalanceResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: Balances not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Customer's Balance.
+      tags:
+      - customer
+    post:
+      consumes:
+      - application/json
+      description: Add amount to increase balance for specific customer
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: balance request body
+        in: body
+        name: balanceBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.BalanceRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleBalanceResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Create Customer's Balance.
+      tags:
+      - customer
+  /finish-order:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of customer's order that already delivered.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      - description: Start date filter in YYYY-MM-DD format
+        in: query
+        name: startDate
+        type: string
+      - description: End date filter in YYYY-MM-DD format
+        in: query
+        name: endDate
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved customer's order
+          schema:
+            $ref: '#/definitions/model.PagedOrderResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: Order history not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Finish Customer's Order.
+      tags:
+      - customer
+  /menu:
+    get:
+      description: Retrieves a paginated list of menus. You can filter by type or
+        name.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      - description: Menu type filter
+        in: query
+        name: type
+        type: string
+      - description: Menu name filter
+        in: query
+        name: name
+        type: string
+      responses:
+        "200":
+          description: Successfully retrieved menus
+          schema:
+            $ref: '#/definitions/model.PagedMenuResponse'
+        "404":
+          description: No menus found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      summary: Get Menus
+      tags:
+      - Public
+    post:
+      consumes:
+      - application/json
+      description: Add a new menu items
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: menu request body
+        in: body
+        name: menuBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.MenuRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleMenuResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Create Menu.
+      tags:
+      - employee
+  /menu/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing menu.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Menu ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Successfully deleted menu
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Delete Menu.
+      tags:
+      - employee
+    put:
+      consumes:
+      - application/json
+      description: Update an existing menu.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Menu ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: menu request body
+        in: body
+        name: menuBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.MenuRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleMenuResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Update Menu.
+      tags:
+      - employee
+  /order:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of all customer's order.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      - default: '"unfinish"'
+        description: order status filter
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved order
+          schema:
+            $ref: '#/definitions/model.PagedOrderResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: Order not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Order.
+      tags:
+      - employee
+    post:
+      consumes:
+      - application/json
+      description: Place new order for specific customer
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: order request body
+        in: body
+        name: orderBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.OrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleOrderResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Create Customer's Order.
+      tags:
+      - customer
+  /order-status/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing customer's order status.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleOrderResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Update Order Status.
+      tags:
+      - employee
+  /promo:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of all promo.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved promo
+          schema:
+            $ref: '#/definitions/model.PagedPromoResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: Promo not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Promo.
+      tags:
+      - employee
+    post:
+      consumes:
+      - application/json
+      description: Add a new promo items
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: promo request body
+        in: body
+        name: promoBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.PromoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SinglePromoResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Create Promo.
+      tags:
+      - employee
+  /promo/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing promo.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Promo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Successfully deleted promo
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Delete Promo.
+      tags:
+      - employee
+  /review:
+    get:
+      description: Retrieves a paginated list of reviews.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      responses:
+        "200":
+          description: Successfully retrieved reviews
+          schema:
+            $ref: '#/definitions/model.PagedReviewResponse'
+        "404":
+          description: No reviews found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      summary: Get Reviews
+      tags:
+      - Public
+    post:
+      consumes:
+      - application/json
+      description: add review (1-5) for specific menu by specific customer.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: review request body
+        in: body
+        name: reviewBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleReviewResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Create Review.
+      tags:
+      - customer
+  /review/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing customer's review.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Review ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Successfully deleted review
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Delete Review.
+      tags:
+      - customer
+    put:
+      consumes:
+      - application/json
+      description: Update an existing customer's review.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Review ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: review request body
+        in: body
+        name: reviewBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleReviewResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Update Review.
+      tags:
+      - customer
+  /unfinish-order:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves unfinish customer's order to track the order status.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved customer's order
+          schema:
+            $ref: '#/definitions/model.SingleOrderResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: unfinish order not found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Unfinish Customer's Order.
+      tags:
+      - customer
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of users. You can filter by role.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: size
+        type: integer
+      - description: User role filter
+        in: query
+        name: role
+        type: string
+      responses:
+        "200":
+          description: Successfully retrieved users
+          schema:
+            $ref: '#/definitions/model.PagedUserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "404":
+          description: No users found
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Get Users
+      tags:
+      - Admin
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user's own data.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: user request body
+        in: body
+        name: userBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleUserResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Update User.
+      tags:
+      - user
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing user.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Successfully deleted user
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Delete User.
+      tags:
+      - Admin
+  /user/{id}/role:
+    patch:
+      consumes:
+      - application/json
+      description: Update user's role from customer to employee.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SingleUserResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/model.Status'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Status'
+        "403":
+          description: Forbidden access
+          schema:
+            $ref: '#/definitions/model.Status'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/model.Status'
+      security:
+      - BearerAuth: []
+      summary: Update User Role.
+      tags:
+      - Admin
+swagger: "2.0"
