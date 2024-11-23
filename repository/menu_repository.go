@@ -240,6 +240,3 @@ func NewMenuRepository(db *sql.DB) MenuRepository{
 }
 
 
-/*
-
-*/
