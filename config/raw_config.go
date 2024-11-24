@@ -33,7 +33,7 @@ const (
 	JOIN users u on m.created_by = u.id
 	LEFT JOIN reviews r on m.id = r.menu_id
 	GROUP BY m.id, u.username
-	ORDER BY rating DESC
+	ORDER BY rating DESC, created_at ASC
 	LIMIT $1 OFFSET $2`
 	GetAllMenuWithAllFilterQuery = `SELECT m.id, m.name, m.type, m.description, m.unit_type, m.price,
 	COALESCE(AVG(r.rating), 0) AS rating, u.username AS created_by,
