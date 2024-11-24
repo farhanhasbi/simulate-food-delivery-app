@@ -220,7 +220,7 @@ func (r *menuRepository) GetMenubyDesc(desc string) (entity.Menu, error){
 	var menu entity.Menu
 
 	// Retrieve menu by description
-	err := r.db.QueryRow(config.GetMenubyNameQuery, desc).Scan(&menu.Desc)
+	err := r.db.QueryRow(config.GetMenubyDescQuery, desc).Scan(&menu.Desc)
 
 	// Handle potential errors from the query
 	if err != nil{
