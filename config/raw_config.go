@@ -42,7 +42,7 @@ const (
 	LEFT JOIN reviews r on m.id = r.menu_id
 	WHERE m.type = $3 AND m.name LIKE '%' || $4 || '%'
 	GROUP BY m.id, u.username
-	ORDER BY rating DESC
+	ORDER BY rating DESC, created_at ASC
 	LIMIT $1 OFFSET $2`
 	GetAllMenuWithFilterNameQuery = `SELECT m.id, m.name, m.type, m.description, m.unit_type, m.price,
 	COALESCE(AVG(r.rating), 0) AS rating, u.username AS created_by,
@@ -51,7 +51,7 @@ const (
 	LEFT JOIN reviews r ON m.id = r.menu_id
 	WHERE m.name LIKE '%' || $3 || '%'
 	GROUP BY m.id, u.username
-	ORDER BY rating DESC
+	ORDER BY rating DESC, created_at ASC
 	LIMIT $1 OFFSET $2`
 	GetAllMenuWithFilterTypeQuery = `SELECT m.id, m.name, m.type, m.description, m.unit_type, m.price,
 	COALESCE(AVG(r.rating), 0) AS rating, u.username AS created_by,
@@ -60,7 +60,7 @@ const (
 	LEFT JOIN reviews r ON m.id = r.menu_id
 	WHERE m.type = $3
 	GROUP BY m.id, u.username
-	ORDER BY rating DESC
+	ORDER BY rating DESC, created_at ASC
 	LIMIT $1 OFFSET $2`
 	GetMenubyIdQuery = `SELECT id, name, type, description, unit_type, price, created_by, created_at, updated_at FROM menus WHERE id = $1`
 	UpdateMenuQuery = `UPDATE menus SET name = $2, type = $3, description = $4, unit_type = $5, price = $6, updated_at = $7 WHERE id = $1`
