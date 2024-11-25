@@ -4,7 +4,6 @@ package config
 const (
 	RegisterQuery = `INSERT INTO users(username, email, password, role, gender, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, created_at`
 	LoginQuery             = `SELECT id, email, password, username, role FROM users WHERE email = $1`
-	GetUserbyUsernameQuery = `SELECT username FROM users WHERE username = $1`
 	GetUserbyIdQuery       = `SELECT id, username, email, password, role, gender, created_at, updated_at FROM users WHERE id = $1`
 	CountUserQuery         = `SELECT COUNT(*) FROM users`
 	AssignToEmployeeQuery  = `UPDATE users SET role = $2, updated_at = $3 WHERE id = $1`
@@ -25,7 +24,6 @@ const (
 const (
 	CreateMenuQuery = `INSERT INTO menus(name, type, description, unit_type, price, created_by, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id, created_at, created_by`
 	GetMenubyNameQuery = "SELECT id, name, price FROM menus WHERE name = $1"
-	GetMenubyDescQuery = "SELECT description FROM menus WHERE description = $1"
 	GetAllMenuQuery = `
 	SELECT m.id, m.name, m.type, m.description, m.unit_type, m.price,
 	COALESCE(AVG(r.rating), 0) AS rating, u.username AS created_by,

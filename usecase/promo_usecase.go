@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"food-delivery-apps/entity"
 	"food-delivery-apps/repository"
 	"food-delivery-apps/shared/model"
@@ -29,12 +28,6 @@ func (uc *promoUseCase) CreatePromo(payload entity.PromoRequest) (entity.PromoRe
 	// Validate the fields provided in the payload
 	if err := promo.Validate(); err != nil{
 		return entity.PromoResponse{}, err
-	}
-
-	// Check if the promo_code is already used
-	promoExist, _ := uc.repo.GetPromoByPromoCode(payload.PromoCode)
-	if promoExist.PromoCode == payload.PromoCode{
-		return entity.PromoResponse{}, fmt.Errorf("promo with code %s already exists", payload.PromoCode)
 	}
 
 	payload.UpdatedAt = time.Now().Format("January 02, 2006 03:04 PM")

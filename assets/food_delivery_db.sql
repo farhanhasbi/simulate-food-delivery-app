@@ -25,6 +25,9 @@ CREATE TABLE users(
   updated_at TIMESTAMP
 );
 
+ALTER TABLE users ADD CONSTRAINT unique_user_username UNIQUE (username);
+ALTER TABLE users ADD CONSTRAINT unique_user_email UNIQUE (email);
+
 CREATE TABLE token_blacklists (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   token VARCHAR(512) NOT NULL,
@@ -43,6 +46,9 @@ create table menus(
   updated_at TIMESTAMP,
   FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
+
+ALTER TABLE menus ADD CONSTRAINT unique_menu_name UNIQUE (name);
+ALTER TABLE menus ADD CONSTRAINT unique_menu_description UNIQUE (description);
 
 create table balances(
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,

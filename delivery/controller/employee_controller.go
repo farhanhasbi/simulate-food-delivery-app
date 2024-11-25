@@ -253,14 +253,14 @@ func (c *EmployeeController) DeletePromoHandler(ctx *gin.Context){
 }
 
 // @Summary Get Order.
-// @Description Retrieves a paginated list of all customer's order.
+// @Description Retrieves a paginated list of all customer's order. filter status with 'finish' or 'unfinish'
 // @Tags employee
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Bearer token"
 // @Param page query int false "Page number" default(1)
 // @Param size query int false "Number of items per page" default(10)
-// @Param status query string false "order status filter" default("all")
+// @Param status query string false "order status filter"
 // @Success 200 {object} model.PagedOrderResponse "Successfully retrieved order"
 // @Failure 404 {object} model.Status "Order not found"
 // @Failure 500 {object} model.Status "Internal server error"

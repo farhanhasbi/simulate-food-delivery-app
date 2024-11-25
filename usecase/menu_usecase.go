@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"food-delivery-apps/entity"
 	"food-delivery-apps/repository"
 	"food-delivery-apps/shared/model"
@@ -25,18 +24,6 @@ func (uc *menuUseCase) CreateNewMenu(payload entity.Menu) (entity.MenuResponse, 
 		return entity.MenuResponse{}, err
 	}
 	
-	// Check if the name is already used
-	nameExist, _ := uc.repo.GetMenubyName(payload.Name)
-	if nameExist.Name == payload.Name{
-		return entity.MenuResponse{}, fmt.Errorf("menu with name %s already exists", payload.Name)
-	}
-
-	// Check if the description is already used
-	descExist, _ := uc.repo.GetMenubyDesc(payload.Desc)
-	if descExist.Desc == payload.Desc{
-		return entity.MenuResponse{}, fmt.Errorf("menu with description %s already exists", payload.Desc)
-	}
-
 	payload.UpdatedAt = time.Now()
 
 	return uc.repo.AddMenu(payload)
@@ -56,22 +43,6 @@ func (uc *menuUseCase) UpdateMenu(payload entity.Menu) (entity.MenuResponse, err
 	// Validate the fields provided in the payload
 	if err := payload.ValidateUpdate(); err != nil{
 		return entity.MenuResponse{}, err
-	}
-
-	// Check if name is already used
-	if payload.Name != "" && payload.Name != menu.Name{
-		nameExist, _ := uc.repo.GetMenubyName(payload.Name)
-		if nameExist.Name == payload.Name{
-			return entity.MenuResponse{}, fmt.Errorf("menu with name %s already exists", payload.Name)
-		}
-	}
-
-	// Check if description is already used
-	if payload.Desc != "" && payload.Desc != menu.Desc{
-		descExist, _ := uc.repo.GetMenubyDesc(payload.Desc)
-		if descExist.Desc == payload.Desc{
-			return entity.MenuResponse{}, fmt.Errorf("menu with description %s already exists", payload.Desc)
-		}
 	}
 
 	// Check if fields are present before updating them

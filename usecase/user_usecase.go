@@ -27,18 +27,6 @@ type UserUseCase interface {
 }
 
 func (uc *userUseCase) CreateNewUser(payload entity.User) (entity.UserResponse, error){
-	// Check if the email already used
-	emailExist, _ := uc.repo.GetUserbyEmail(payload.Email)
-	if emailExist.Email == payload.Email {
-		return entity.UserResponse{}, fmt.Errorf("user with email: %s already exists", payload.Email)
-	}
-
-	// Check if the username already used
-	userExist, _ := uc.repo.GetUserbyUsername(payload.Username)
-	if userExist.Username == payload.Username {
-		return entity.UserResponse{}, fmt.Errorf("username: %s already exists", payload.Username)
-	}
-
 	// Assign user's role to admin whenever the count equal to 0
 	var userCount int
 	err := uc.repo.CountUser(&userCount)
@@ -114,22 +102,6 @@ func (uc *userUseCase) UpdateUser(payload entity.User) (entity.UserResponse, err
 	// Validate the fields provided in the payload
 	if err := payload.ValidateUpdate(); err != nil{
 		return entity.UserResponse{}, err
-	}
-
-	// Check if email is already used
-	if payload.Email != "" && payload.Email != user.Email {
-		emailExist, _ := uc.repo.GetUserbyEmail(payload.Email)
-		if emailExist.Email == payload.Email {
-			return entity.UserResponse{}, fmt.Errorf("user with email %s already exists", payload.Email)
-		}
-	}
-
-	// Check if username is already used
-	if payload.Username != "" && payload.Username != user.Username {
-		userExist, _ := uc.repo.GetUserbyUsername(payload.Username)
-		if userExist.Username == payload.Username {
-			return entity.UserResponse{}, fmt.Errorf("username %s already exists", payload.Username)
-		}
 	}
 
 	// Check if fields are present before updating them

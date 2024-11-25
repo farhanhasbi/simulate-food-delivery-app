@@ -8,6 +8,8 @@ import (
 	"food-delivery-apps/shared/model"
 	"math"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type menuRepository struct{
@@ -21,14 +23,26 @@ type MenuRepository interface{
 	UpdateMenu(payload entity.MenuResponse) (entity.MenuResponse, error)
 	DeleteMenu(id string) error
 	GetMenubyName(name string) (entity.Menu, error)
-	GetMenubyDesc(desc string) (entity.Menu, error)
 }
 
 func (r *menuRepository) AddMenu(payload entity.Menu) (entity.MenuResponse, error){
 	// Insert the value for menus.
-	if err := r.db.QueryRow(config.CreateMenuQuery, payload.Name, payload.Type,
+	err := r.db.QueryRow(config.CreateMenuQuery, payload.Name, payload.Type,
 		payload.Desc, payload.UnitType, payload.Price, payload.CreatedBy,
-		payload.UpdatedAt).Scan(&payload.Id, &payload.CreatedAt, &payload.CreatedBy); err != nil{
+		payload.UpdatedAt).Scan(&payload.Id, &payload.CreatedAt, &payload.CreatedBy)
+	
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code {
+				case "23505": // Unique violation
+				if pqErr.Constraint == "unique_menu_name" {
+					return entity.MenuResponse{}, fmt.Errorf("menu with name %s already exists", payload.Name)
+				}
+				if pqErr.Constraint == "unique_menu_description" {
+					return entity.MenuResponse{}, fmt.Errorf("menu with description '%s' already exists", payload.Desc)
+				}
+			}
+		}
 		return entity.MenuResponse{}, fmt.Errorf("failed to create new menu: %v", err.Error())
 	}
 
@@ -174,6 +188,17 @@ func (r *menuRepository) UpdateMenu(payload entity.MenuResponse) (entity.MenuRes
 	_, err := r.db.Exec(config.UpdateMenuQuery, payload.Id, payload.Name, payload.Type,
 		payload.Desc, payload.UnitType, payload.Price, payload.UpdatedAt)
 	if err != nil{
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code {
+				case "23505": // Unique violation
+				if pqErr.Constraint == "unique_menu_name" {
+					return entity.MenuResponse{}, fmt.Errorf("menu with name %s already exists", payload.Name)
+				}
+				if pqErr.Constraint == "unique_menu_description" {
+					return entity.MenuResponse{}, fmt.Errorf("menu with description '%s' already exists", payload.Desc)
+				}
+			}
+		}
 		return entity.MenuResponse{}, fmt.Errorf("failed to update menu: %v", err.Error())
 	}
 
@@ -208,25 +233,6 @@ func (r *menuRepository) GetMenubyName(name string) (entity.Menu, error){
 		// If no rows are found, return a specific "menu not found" error message
 		if err == sql.ErrNoRows{
 			return entity.Menu{}, fmt.Errorf("menu with name %s is not found: %v", name, err.Error())
-		}
-		// For other errors, return a general retrieval failure message
-		return entity.Menu{}, fmt.Errorf("failed to retrieve menu: %v", err.Error())
-	}
-
-	return menu, nil
-}
-
-func (r *menuRepository) GetMenubyDesc(desc string) (entity.Menu, error){
-	var menu entity.Menu
-
-	// Retrieve menu by description
-	err := r.db.QueryRow(config.GetMenubyDescQuery, desc).Scan(&menu.Desc)
-
-	// Handle potential errors from the query
-	if err != nil{
-		// If no rows are found, return a specific "menu not found" error message
-		if err == sql.ErrNoRows{
-			return entity.Menu{}, fmt.Errorf("menu with description %s is not found: %v", desc, err.Error())
 		}
 		// For other errors, return a general retrieval failure message
 		return entity.Menu{}, fmt.Errorf("failed to retrieve menu: %v", err.Error())

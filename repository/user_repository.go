@@ -8,6 +8,8 @@ import (
 	"food-delivery-apps/shared/model"
 	"math"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type userRepository struct{
@@ -22,7 +24,6 @@ type UserRepository interface{
 	UpdateRole(payload entity.UserResponse) (entity.UserResponse, error)
 	DeleteUser(id string) error
 	GetUserbyEmail(email string) (entity.User, error)
-	GetUserbyUsername(username string) (entity.User, error)
 	CountUser(count *int) error
 	BlackListToken(token string) error
 	IsTokenBlacklisted(token string) bool
@@ -31,8 +32,21 @@ type UserRepository interface{
 
 func (r *userRepository) CreateNewUser(payload entity.User) (entity.UserResponse, error){
 	// Insert the value for user.
-	if err := r.db.QueryRow(config.RegisterQuery, payload.Username, payload.Email,
-		payload.Password, payload.Role, payload.Gender, payload.UpdatedAt).Scan(&payload.Id, &payload.CreatedAt); err != nil{
+	err := r.db.QueryRow(config.RegisterQuery, payload.Username, payload.Email,
+		payload.Password, payload.Role, payload.Gender, payload.UpdatedAt).Scan(&payload.Id, &payload.CreatedAt)
+		
+		if err != nil {
+			if pqErr, ok := err.(*pq.Error); ok {
+				switch pqErr.Code {
+					case "23505": // Unique violation
+					if pqErr.Constraint == "unique_user_username" {
+						return entity.UserResponse{}, fmt.Errorf("user with username %s already exists", payload.Username)
+					}
+					if pqErr.Constraint == "unique_user_email" {
+						return entity.UserResponse{}, fmt.Errorf("user with email '%s' already exists", payload.Email)
+					}
+				}
+			}
 			return entity.UserResponse{}, fmt.Errorf("failed to create user: %v", err.Error())
 		}
 
@@ -161,7 +175,19 @@ func (r *userRepository) GetUserbyId(id string) (entity.UserResponse, error){
 func (r *userRepository) UpdateUser(payload entity.UserResponse) (entity.UserResponse, error){
 	_, err := r.db.Exec(config.UpdateUserQuery, payload.Id, payload.Username,
 		payload.Email, payload.Gender, payload.UpdatedAt)
+
 	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code {
+				case "23505": // Unique violation
+				if pqErr.Constraint == "unique_user_username" {
+					return entity.UserResponse{}, fmt.Errorf("user with username %s already exists", payload.Username)
+				}
+				if pqErr.Constraint == "unique_user_email" {
+					return entity.UserResponse{}, fmt.Errorf("user with email '%s' already exists", payload.Email)
+				}
+			}
+		}
 		return entity.UserResponse{}, fmt.Errorf("failed to update user: %v", err.Error())
 	}
 
@@ -202,25 +228,6 @@ func (r *userRepository) GetUserbyEmail(email string) (entity.User, error){
 		return entity.User{}, fmt.Errorf("failed to retrieve user: %v", err.Error())
 	}
 	
-	return user, nil
-}
-
-func (r *userRepository) GetUserbyUsername(username string) (entity.User, error){
-	var user entity.User
-
-	// retrieve user by username
-	err := r.db.QueryRow(config.GetUserbyUsernameQuery, username).Scan(&user.Username)
-
-	// Handle potential errors from the query
-	if err != nil{
-		// If no rows are found, return a specific "menu not found" error message
-		if err == sql.ErrNoRows{
-			return entity.User{}, fmt.Errorf("user with username %s is not found: %v", username, err.Error())
-		}
-		// For other errors, return a general retrieval failure message
-		return entity.User{}, fmt.Errorf("failed to retrieve user: %v", err.Error())
-	}
-		
 	return user, nil
 }
 

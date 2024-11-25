@@ -8,6 +8,8 @@ import (
 	"food-delivery-apps/shared/model"
 	"math"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type promoRepository struct{
@@ -32,6 +34,14 @@ func (r *promoRepository) CreatePromo(payload entity.PromoRequest) (entity.Promo
 	// Insert the value for promos
 	if err := r.db.QueryRow(config.CreatePromoQuery, payload.EmployeeId, payload.PromoCode,
 		payload.Discount, payload.IsPercentage, payload.StartDate, payload.EndDate, payload.Description, payload.UpdatedAt).Scan(&payload.Id, &createdAt, &updatedAt); err != nil{
+
+		if pqErr, ok := err.(*pq.Error); ok {
+				if pqErr.Code == "23505" { // Unique constraint violation
+						return entity.PromoResponse{}, fmt.Errorf("promo with name %s already exists", payload.PromoCode)
+				}
+				return entity.PromoResponse{}, fmt.Errorf("database error: %s", pqErr.Message)
+		}
+		
 		return entity.PromoResponse{}, fmt.Errorf("failed to create promo: %v", err.Error())
 	}
 	

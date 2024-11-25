@@ -727,7 +727,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieves a paginated list of all customer's order.",
+                "description": "Retrieves a paginated list of all customer's order. filter status with 'finish' or 'unfinish'",
                 "consumes": [
                     "application/json"
                 ],
@@ -762,7 +762,6 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "default": "\"unfinish\"",
                         "description": "order status filter",
                         "name": "status",
                         "in": "query"

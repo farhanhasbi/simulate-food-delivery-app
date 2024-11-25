@@ -831,7 +831,8 @@ paths:
     get:
       consumes:
       - application/json
-      description: Retrieves a paginated list of all customer's order.
+      description: Retrieves a paginated list of all customer's order. filter status
+        with 'finish' or 'unfinish'
       parameters:
       - description: Bearer token
         in: header
@@ -848,8 +849,7 @@ paths:
         in: query
         name: size
         type: integer
-      - default: '"unfinish"'
-        description: order status filter
+      - description: order status filter
         in: query
         name: status
         type: string
